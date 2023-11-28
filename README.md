@@ -1,4 +1,8 @@
+```
+
+```
 # CaseStudy2DDS
+
 Case Study 02
 
 # Zoom Link
@@ -10,3 +14,15 @@ Case Study 02
 # Code book
 
 # R Code
+
+### Import
+
+### Tidy
+
+### Transform
+
+### Visualize
+
+### Model
+
+### Communicate
