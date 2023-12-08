@@ -15,32 +15,24 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 ```{r, echo=FALSE}
-sessionInfo()
-#getwd()
-#setwd()
 
+# Print Session Information 
+sessionInfo()
+
+# Install Packages
 install.packages("ggplot2")
 install.packages("tidyverse")
 install.packages("naniar")
 install.packages("GGally")
 install.packages("plotly")
 install.packages("e1071")
+install.packages("aws.s3")
 
+# Load Libraries
+library(aws.s3)
 library(e1071)
 library(ggplot2)
 library(GGally)
@@ -50,56 +42,85 @@ library(tidyverse)
 library(naniar)
 ```
 
-## Import the Case Study 2 Dataset
+## Import the Case Study 2 df_casestudy2set
 
 ```{r, echo=FALSE}
 
-# Source R script to relative path
-source("analysis/EDA.R", echo=FALSE)
+####################################
+
+# Source Exploratory df_casestudy2 Analysis R script to relative path
+#source("analysis/eda.R", echo=FALSE)
 
 # Get the current working directory
 getwd()
-# Set the current directory to the data folder
-setwd("data")
+# Set the current directory to the df_casestudy2 folder
+#setwd("df_casestudy2")
 
 # List files in root dir
 list.files()
 
-# Fetch dataset from local  
-DATA = read.csv("data/CaseStudy2-data.csv", header = TRUE) # TODO change to relative path file
+#####################################
 
-# Fetch dataset from AWS S3 repository
-#DATA <- read.table(textConnection(getURL("")), sep=",", header=TRUE)
+# Fetch df_casestudy2set from local df_casestudy2 folder
+#df_cs2 = read.csv("df_casestudy2/CaseStudy2-df_casestudy2.csv", header = TRUE) # TODO change to relative path file
+#df_cs2_no_attrition = read.csv("df_casestudy2/CaseStudy2CompSet No Attrition.csv", header = TRUE) # TODO change to relative path file
+#df_cs2_no_salary = read.csv("df_casestudy2/CaseStudy2CompSet No Salary.csv", header = TRUE) # TODO change to relative path file
 
+######################################
 
+# Fetch df_casestudy2set from AWS S3 repository
+Sys.setenv("AWS_ACCESS_KEY_ID" = "AKIARVC35QNDEMEU4R7E",
+           "AWS_SECRET_ACCESS_KEY" = "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",
+           "AWS_DEFAULT_REGION" = "us-west-2")
+aws.s3::bucketlist()
+aws.s3::get_bucket("casestudy2")
+df_casestudy2 = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2-df_casestudy2.csv")
+
+df_cs2_no_attrition = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Attrition.csv")
+
+df_cs2_no_salary = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Salary.csv")
+
+#####################################
 ```
-## Tidy the Case Study 2 Dataset
+## Tidy the Case Study 2 df_casestudy2set
 
 ```{r}
 # Let's take a look at what we are working with first
-View(DATA)
+View(df_casestudy2)
+View(df_cs2_no_attrition)
+View(df_cs2_no_salary)
 
-# Next we want to see what's in the meta dataset 
-str(DATA)
 
-# Print summary of the dataset
-summary(DATA)
+# Next we want to see what's in the meta df_casestudy2set 
+str(df_casestudy2)
+str(df_cs2_no_attrition)
+str(df_cs2_no_salary)
+
+# Print summary of the df_casestudy2set
+summary(df_casestudy2)
+summary(df_cs2_no_attrition)
+summary(df_cs2_no_salary)
 
 # Print the first 5 rows 
-head(DATA, n = 5)
-
+head(df_casestudy2, n = 5)
+head(df_cs2_no_attrition, n = 5)
+head(df_cs2_no_salary, n = 5)
 # Print the last 5 rows
-tail(DATA, n = 5)
+tail(df_casestudy2, n = 5)
+tail(df_cs2_no_attrition, n = 5)
+tail(df_cs2_no_salary, n = 5)
 
 # Print the number of rows and columns
-dim(DATA)
+dim(df_casestudy2)
+dim(df_cs2_no_attrition)
+dim(df_cs2_no_salary)
 
 ```
 
-## Transform the Case Study 2 Dataset
+## Transform the Case Study 2 df_casestudy2set
 ```{r}
 # Variables # missing
-gg_miss_var(DATA)
+gg_miss_var(df_casestudy2)
 ```
 
 ### TODO select attrition predictor variables
@@ -109,10 +130,10 @@ gg_miss_var(DATA)
 # YearsAtCompany, YearsInCurrentRole, YearsSinceLastPromotion, YearsWithCurrManager,
 ```
 
-## Visualize the Case Study 2 Dataset
+## Visualize the Case Study 2 df_casestudy2set
 ```{r}
 # Histogram of JobRole
-DATA %>% ggplot(aes(JobRole)) + geom_histogram(stat = "count")
+df_casestudy2 %>% ggplot(aes(JobRole)) + geom_histogram(stat = "count")
 
 
 ```
@@ -121,7 +142,7 @@ DATA %>% ggplot(aes(JobRole)) + geom_histogram(stat = "count")
 ### EDA: scatterplots, histograms, boxplots, barplot
 ### 3D plots with plotly
 
-## Model the Case Study 2 Dataset
+## Model the Case Study 2 df_casestudy2set
 
 ### Classification
 ```{r, echo = FALSE}
@@ -130,4 +151,4 @@ DATA %>% ggplot(aes(JobRole)) + geom_histogram(stat = "count")
 # KNN & LOOCV
 ```
 
-## Present the Case Study 2 Dataset
+## Present the Case Study 2 df_casestudy2set
