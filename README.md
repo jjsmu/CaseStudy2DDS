@@ -13,16 +13,3 @@ Case Study 02
 
 # Code book
 
-# R Code
-
-### Import
-
-### Tidy
-
-### Transform
-
-### Visualize
-
-### Model
-
-### Communicate
