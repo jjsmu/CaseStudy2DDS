@@ -28,14 +28,55 @@ Variable Descriptions:
 
 List each variable included in your dataset.
 For each variable, provide:
+
+| Column Name | Description | Data Type | Notes |
+|-------------|-------------|-----------|-------|
+| ID   | Description | Integer      | Notes |
+| Age   | Description | Integer      | Notes |
+| Attrition   | Description | Logical      | Notes |
+| BusinessTravel | Description | Factor      | Notes |
+| DailyRate   | Description | Numeric      | Notes |
+| Department   | Description | Character      | Notes |
+| DistanceFromHome   | Description | Numeric      | Notes |
+| Education   | Description | Factor      | Notes |
+| EducationField   | Description | Character      | Notes |
+| EmployeeCount   | Description | Integer      | Notes |
+| EmployeeNumber   | Description | Integer      | Notes |
+| EnvironmentSatisfaction   | Description | Factor      | Notes |
+| Gender   | Description | Factor      | Notes |
+| HourlyRate   | Description | Numeric      | Notes |
+| JobInvolvement   | Description | Factor      | Notes |
+| JobLevel   | Description | Factor      | Notes |
+| JobRole   | Description | Character      | Notes |
+| JobSatisfaction   | Description | Factor      | Notes |
+| MaritalStatus   | Description | Factor      | Notes |
+| MonthlyIncome   | Description | Numeric      | Notes |
+| MonthlyRate   | Description | Numeric      | Notes |
+| NumCompaniesWorked   | Description | Integer      | Notes |
+| Over18   | Description | Logical      | Notes |
+| OverTime   | Description | Logical      | Notes |
+| PercentSalaryHike   | Description | Numeric      | Notes |
+| PerformanceRating   | Description | Factor      | Notes |
+| RelationshipSatisfaction   | Description | Factor      | Notes |
+| StandardHours   | Description | Integer      | Notes |
+| StockOptionLevel   | Description | Factor      | Notes |
+| TotalWorkingYears | Description | Integer      | Notes |
+| TrainingTimesLastYear   | Description | Integer      | Notes |
+| WorkLifeBalance   | Description | Factor      | Notes |
+| YearsAtCompany   | Description | Integer      | Notes |
+| YearsInCurrentRole   | Description | Integer      | Notes |
+| YearsSinceLastPromotion   | Years since last promotion | Integer      | Notes |
+| YearsWithCurrManager   | Years with current Manager | Integer     | Notes |
+| CurrManager   | Current Manager | Character      | Notes |
+
 A detailed description (what it represents, how it was measured).
 The variable type (e.g., numeric, categorical).
 The units of measurement (if applicable).
 Any coding information (e.g., 1 = Male, 2 = Female for a gender variable).
 Information on how missing values are represented.
 Any derived or calculated variables should be clearly explained (how they were derived, formulas used).
-Data Cleaning and Preprocessing:
 
+Data Cleaning and Preprocessing:
 Document any data cleaning or preprocessing steps (e.g., handling of missing data, data filtering, normalization).
 Explain why these steps were necessary and how they were performed.
 Analytical Methods:
