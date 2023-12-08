@@ -5,10 +5,10 @@
 
 Case Study 02
 
-# Zoom Link
+## Zoom Link
 <a href="#">Link to Case Study 2 Zoom Presentation Video</a>
 
-# Executive Summary
+## Executive Summary
 Purpose and Context: It begins with a brief statement of the report's purpose and the problem or issue it addresses.
 
 Key Findings and Facts: It highlights the most important findings or data points from the report.
@@ -17,9 +17,9 @@ Conclusions: It summarizes the conclusions drawn from the findings and analysis.
 
 Recommendations: If applicable, it includes the main recommendations or action items proposed in the document.
 
-# Introduction
+## Introduction
 
-# Code book
+## Code book
 Creating a codebook for a data science project is an essential step for ensuring clarity, reproducibility, and ease of understanding for anyone who interacts with your data and code. A well-structured codebook serves as a guide, detailing the data, variables, coding procedures, and analytical methods used in your project. Here are some best practices for writing an effective codebook:
 
 Introduction and Background:
