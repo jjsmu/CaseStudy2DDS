@@ -31,14 +31,17 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 
 ```{r, echo=FALSE}
 sessionInfo()
-getwd()
+#getwd()
 #setwd()
 
-#install.packages("ggplot2")
-#install.packages("tidyverse")
-#install.packages("naniar")
-#install.packages("GGally")
-#install.packages("plotly")
+install.packages("ggplot2")
+install.packages("tidyverse")
+install.packages("naniar")
+install.packages("GGally")
+install.packages("plotly")
+install.packages("e1071")
+
+library(e1071)
 library(ggplot2)
 library(GGally)
 library(plotly)
@@ -51,14 +54,22 @@ library(naniar)
 
 ```{r, echo=FALSE}
 
+# Source R script to relative path
+source("analysis/EDA.R", echo=FALSE)
+
+# Get the current working directory
+getwd()
+# Set the current directory to the data folder
+setwd("data")
+
 # List files in root dir
 list.files()
 
-#DATA = read.csv(file.choose(), header = TRUE) # TODO change to relative path file
-#data <- getURL()
-DATA <- read.table(textConnection(getURL(
-  ""
-)), sep=",", header=TRUE)
+# Fetch dataset from local  
+DATA = read.csv("data/CaseStudy2-data.csv", header = TRUE) # TODO change to relative path file
+
+# Fetch dataset from AWS S3 repository
+#DATA <- read.table(textConnection(getURL("")), sep=",", header=TRUE)
 
 
 ```
@@ -87,7 +98,8 @@ dim(DATA)
 
 ## Transform the Case Study 2 Dataset
 ```{r}
-# TODO manipulate the dataset 
+# Variables # missing
+gg_miss_var(DATA)
 ```
 
 ### TODO select attrition predictor variables
@@ -99,7 +111,8 @@ dim(DATA)
 
 ## Visualize the Case Study 2 Dataset
 ```{r}
-
+# Histogram of JobRole
+DATA %>% ggplot(aes(JobRole)) + geom_histogram(stat = "count")
 
 
 ```
