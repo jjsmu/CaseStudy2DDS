@@ -5,3 +5,6 @@
 
 # RProj.user files
 CaseStudy2DDS.Rproj
+
+# .env
+.env
