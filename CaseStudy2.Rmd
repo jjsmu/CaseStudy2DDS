@@ -1,0 +1,120 @@
+---
+title: "CaseStudy2"
+author: "jjsmu"
+date: "2023-12-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r, echo=FALSE}
+sessionInfo()
+getwd()
+#setwd()
+
+#install.packages("ggplot2")
+#install.packages("tidyverse")
+#install.packages("naniar")
+#install.packages("GGally")
+#install.packages("plotly")
+library(ggplot2)
+library(GGally)
+library(plotly)
+#library(magrittr)
+library(tidyverse)
+library(naniar)
+```
+
+## Import the Case Study 2 Dataset
+
+```{r, echo=FALSE}
+
+# List files in root dir
+list.files()
+
+#DATA = read.csv(file.choose(), header = TRUE) # TODO change to relative path file
+#data <- getURL()
+DATA <- read.table(textConnection(getURL(
+  ""
+)), sep=",", header=TRUE)
+
+
+```
+## Tidy the Case Study 2 Dataset
+
+```{r}
+# Let's take a look at what we are working with first
+View(DATA)
+
+# Next we want to see what's in the meta dataset 
+str(DATA)
+
+# Print summary of the dataset
+summary(DATA)
+
+# Print the first 5 rows 
+head(DATA, n = 5)
+
+# Print the last 5 rows
+tail(DATA, n = 5)
+
+# Print the number of rows and columns
+dim(DATA)
+
+```
+
+## Transform the Case Study 2 Dataset
+```{r}
+# TODO manipulate the dataset 
+```
+
+### TODO select attrition predictor variables
+```{r, echo = FALSE}
+# JobRole, JobSatisfaction, MonthlyIncome, NumCompaniesWorked,
+# PerformanceRating, WorkLifeBalance, YearsAtCompany, TotalWorkingYears
+# YearsAtCompany, YearsInCurrentRole, YearsSinceLastPromotion, YearsWithCurrManager,
+```
+
+## Visualize the Case Study 2 Dataset
+```{r}
+
+
+
+```
+
+
+### EDA: scatterplots, histograms, boxplots, barplot
+### 3D plots with plotly
+
+## Model the Case Study 2 Dataset
+
+### Classification
+```{r, echo = FALSE}
+# Linear Regression
+# Naive Bayes
+# KNN & LOOCV
+```
+
+## Present the Case Study 2 Dataset
