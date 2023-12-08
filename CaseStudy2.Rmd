@@ -64,8 +64,8 @@ list.files()
 #df_cs2_no_salary = read.csv("df_casestudy2/CaseStudy2CompSet No Salary.csv", header = TRUE) # TODO change to relative path file
 
 # Fetch datasets from AWS S3 repository
-Sys.setenv("AWS_ACCESS_KEY_ID" = "AKIARVC35QNDEMEU4R7E",
-           "AWS_SECRET_ACCESS_KEY" = "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",
+Sys.setenv("AWS_ACCESS_KEY_ID" = "",
+           "AWS_SECRET_ACCESS_KEY" = "",
            "AWS_DEFAULT_REGION" = "us-west-2")
 aws.s3::bucketlist()
 aws.s3::get_bucket("casestudy2")
