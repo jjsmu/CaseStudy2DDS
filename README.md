@@ -6,10 +6,16 @@
 Case Study 02
 
 # Zoom Link
-
-# Project Overview
+<a href="#">Link to Case Study 2 Zoom Presentation Video</a>
 
 # Executive Summary
+Purpose and Context: It begins with a brief statement of the report's purpose and the problem or issue it addresses.
+
+Key Findings and Facts: It highlights the most important findings or data points from the report.
+
+Conclusions: It summarizes the conclusions drawn from the findings and analysis.
+
+Recommendations: If applicable, it includes the main recommendations or action items proposed in the document.
 
 # Introduction
 
