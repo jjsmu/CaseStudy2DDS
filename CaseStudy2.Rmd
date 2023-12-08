@@ -46,41 +46,33 @@ library(naniar)
 
 ```{r, echo=FALSE}
 
-####################################
-
 # Source Exploratory df_casestudy2 Analysis R script to relative path
 #source("analysis/eda.R", echo=FALSE)
 
 # Get the current working directory
 getwd()
+
 # Set the current directory to the df_casestudy2 folder
 #setwd("df_casestudy2")
 
 # List files in root dir
 list.files()
 
-#####################################
-
 # Fetch df_casestudy2set from local df_casestudy2 folder
 #df_cs2 = read.csv("df_casestudy2/CaseStudy2-df_casestudy2.csv", header = TRUE) # TODO change to relative path file
 #df_cs2_no_attrition = read.csv("df_casestudy2/CaseStudy2CompSet No Attrition.csv", header = TRUE) # TODO change to relative path file
 #df_cs2_no_salary = read.csv("df_casestudy2/CaseStudy2CompSet No Salary.csv", header = TRUE) # TODO change to relative path file
 
-######################################
-
-# Fetch df_casestudy2set from AWS S3 repository
+# Fetch datasets from AWS S3 repository
 Sys.setenv("AWS_ACCESS_KEY_ID" = "AKIARVC35QNDEMEU4R7E",
            "AWS_SECRET_ACCESS_KEY" = "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",
            "AWS_DEFAULT_REGION" = "us-west-2")
 aws.s3::bucketlist()
 aws.s3::get_bucket("casestudy2")
-df_casestudy2 = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2-df_casestudy2.csv")
-
+df_casestudy2 = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2-data.csv")
 df_cs2_no_attrition = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Attrition.csv")
-
 df_cs2_no_salary = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Salary.csv")
 
-#####################################
 ```
 ## Tidy the Case Study 2 df_casestudy2set
 
@@ -115,25 +107,30 @@ dim(df_casestudy2)
 dim(df_cs2_no_attrition)
 dim(df_cs2_no_salary)
 
+# Variables # missing
+gg_miss_var(df_casestudy2)
+gg_miss_var(df_cs2_no_attrition)
+gg_miss_var(df_cs2_no_salary)
+
 ```
 
 ## Transform the Case Study 2 df_casestudy2set
 ```{r}
-# Variables # missing
-gg_miss_var(df_casestudy2)
-```
-
-### TODO select attrition predictor variables
-```{r, echo = FALSE}
-# JobRole, JobSatisfaction, MonthlyIncome, NumCompaniesWorked,
-# PerformanceRating, WorkLifeBalance, YearsAtCompany, TotalWorkingYears
-# YearsAtCompany, YearsInCurrentRole, YearsSinceLastPromotion, YearsWithCurrManager,
+# Dataframe employee basic information
+df_emp <- df_casestudy2 %>% 
+  select(ID, Age, Gender, Education, EducationField, DistanceFromHome, MaritalStatus, NumCompaniesWorked, TotalWorkingYears, YearsAtCompany, YearsInCurrentRole, YearsWithCurrManager, YearsSinceLastPromotion)
+# Dataframe employee company information
+df_jobs <- df_casestudy2 %>%
+  select(ID, JobInvolvement, JobLevel, JobRole, JobSatisfaction)
+# Dataframe employee pay information
+df_pay <- df_casestudy2 %>%
+  select(ID, DailyRate, HourlyRate, MonthlyRate, MonthlyIncome, OverTime)
 ```
 
 ## Visualize the Case Study 2 df_casestudy2set
 ```{r}
-# Histogram of JobRole
-df_casestudy2 %>% ggplot(aes(JobRole)) + geom_histogram(stat = "count")
+# Distribution of Job Roles
+df_jobs %>% ggplot(aes(JobRole)) + geom_bar() 
 
 
 ```
