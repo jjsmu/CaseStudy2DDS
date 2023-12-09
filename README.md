@@ -9,13 +9,16 @@ Case Study 02
 <a href="#">Link to Case Study 2 Zoom Presentation Video</a>
 
 ## Executive Summary
-Purpose and Context: DDSAnalytics, a firm known for its expertise in talent management solutions tailored for Fortune 100 companies, focuses on the continuous cycle of developing and maintaining its workforce. The company encompasses aspects in strategic workforce planning, implementing employee training initiatives, spotting employees with high potential, and tackling the issue of voluntary employee turnover, commonly known as "attrition". DDSAnalytics plans to integrate data science into its talent management strategies, and as a primary step to this integration, the company's leadership is applying data science to predict employee attrition. They have assigned the task of analyzing current employee data to the Frito-Lay, Inc. executive leadership team.
+Purpose and Context: DDSAnalytics, a firm known for its expertise in talent management solutions tailored for Fortune 100 companies, focuses on the continuous cycle of developing and maintaining its workforce. The company encompasses aspects in strategic workforce planning, implementing employee training initiatives, spotting employees with high potential, and tackling the issue of voluntary employee turnover, commonly known as "attrition". DDSAnalytics plans to integrate data science into its talent management strategies, and as a primary step to this integration, the company's leadership is applying data science to predict employee attrition. Our team has been assigned the task of analyzing current employee data to the Frito-Lay, Inc. with the CEO and CFO executive leadership team.
 
-Key Findings and Facts: It highlights the most important findings or data points from the report.
+Key Findings and Facts: Exploratory data analysis on factors of wealth and education indicates positively skewed distribution which 
 
-Conclusions: It summarizes the conclusions drawn from the findings and analysis.
+Conclusions: Despite the unremarkable findings regarding the predominant factors that lead to higher turnover rates or attrition, for example, income or educational gaps with respect to job satisfaction, our exploratory data analysis for these major trends like education level or salary suggests that these are relatively mild impacts on employee retention. In other words, the exploratory data analysis performed on the distribution of monthly income was not evident enough to suggest that money to be the exact cause for attrition. Furthermore, additional research supporting our study has revealed relatively similar distributions with respect to job satisfaction across the entire spectrum of salary income. This may suggest that most employees are either content or discontent regardless of salary. On the other hand, our research has observed a noticeable deviation from the level of job satisfaction with respect to particular job roles, especially among women, in Healthcare, Human Resources and Customer Sales. This could potentially indicate the amount of difficulty many employees must undertake when specializing in client-facing roles. However, further analysis has revealed
 
-Recommendations: If applicable, it includes the main recommendations or action items proposed in the document.
+Recommendations: DDS Analytics has provided a list of recommendations for further study. Our recommendations were developed...
+  1.
+  2.
+  3.
 
 ## Introduction
 
@@ -29,15 +32,15 @@ Introduction and Background:
 To conduct a comprehensive data analysis on the provided dataset (CaseStudy2-data.csv) for identifying factors leading to attrition, we must follow a structured approach using R. Here's a breakdown of the steps we took :
 
 1. Data Exploration and Preprocessing:
-Load the dataset into R from AWS S3 bucket (casestudy2).
-Perform initial exploratory data analysis (EDA) to understand the structure, missing values, and basic statistics. In this case, all data observations were preserved.
+Load thenthree (3) datasets into R from AWS S3 bucket (casestudy2) using aws.s3 libraries.
+Perform initial exploratory data analysis (EDA) to understand the structure using tidyverse library, missing values, and basic statistics using ggplot. Note: In our case, all data observations were preserved.
 Preprocess the data by handling missing values, outliers, and potentially normalizing or transforming features if necessary.
 
 2. Feature Engineering:
-Creation of derived attributes as needed. This involves understanding the business context and the potential factors that could lead to attrition. (e.g. Years In Current Role and Percent Salary Hike to determine employee workplace mobility).
+Creation of derived attributes as needed. This involves understanding the business context and the potential factors that could lead to attrition. (e.g. Years In Current Role and Percent Salary Hike to determine employee workplace upward mobility).
 
 3. Identifying Top Factors for Attrition:
-Use of statistical tests and visualization to identify key factors that contribute to turnover. This includes the 6-step Hypothesis test and Welch's t-test for continuous variables like Monthly Income and Monthly Rate, or ANOVA where applicable.
+Use of statistical tests and visualization to identify key factors that contribute to turnover. This includes the 6-step Hypothesis testing and Welch's t-test for continuous variables like Monthly Income and Monthly Rate, or ANOVA where applicable.
 Correlation analysis might also be helpful to see the strength and direction of relationships between variables.
 
 4. Role-Specific Trends Analysis:
