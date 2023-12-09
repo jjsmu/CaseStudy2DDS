@@ -28,12 +28,16 @@ install.packages("tidyverse")
 install.packages("naniar")
 install.packages("GGally")
 install.packages("plotly")
+install.packages("caret")
 install.packages("e1071")
+install.packages("class")
 install.packages("aws.s3")
 install.packages("ggthemes")
 
 # Load Libraries
 library(aws.s3)
+library(class)
+library(caret)
 library(e1071)
 library(ggplot2)
 library(GGally)
@@ -124,7 +128,7 @@ df <- df_cs2 %>%
 # Data frame employee job information
 df_job <- df_cs2 %>%
   #filter(Attrition == "Yes") %>%
-  select(ID, JobInvolvement, JobLevel, JobRole, JobSatisfaction)
+  select(ID, Attrition, JobInvolvement, JobLevel, JobRole, JobSatisfaction)
 
 # Data frame employee pay information
 df_pay <- df_cs2 %>%
@@ -145,22 +149,33 @@ sum(df_cs2$Attrition == "Yes")
 
 ### Company Profile Snapshot: Age, Gender, Education, Pay, Role ###
 
-# Box plot Age by department
-df_emp %>% ggplot(aes(Department, Age, color = Department)) + geom_boxplot() + ggtitle(paste("Box plot of Age by Department, n = ", count(df_emp)))
+# Box plot age by department
+box_plot_age_dept <- df_emp %>% ggplot(aes(Department, Age, fill = Department)) + geom_boxplot() + ggtitle(paste("Box plot of Age by Department, n = ", count(df_emp)))
+ggplotly(box_plot_age_dept)
 
 # Box plot years in current role by department
-df_emp %>% ggplot(aes(Department, YearsInCurrentRole, color = Department)) + geom_boxplot() + ggtitle(paste("Box plot of Years In Current Role by Department, n = ", count(df_emp)))
+box_plot_yirc_dept <- df_emp %>% ggplot(aes(Department, YearsInCurrentRole, fill = Department)) + geom_boxplot() + ggtitle(paste("Box plot of Years In Current Role by Department, n = ", count(df_emp)))
+ggplotly(box_plot_yirc_dept)
+
+# Box plot age by job role
+box_plot_age_role <- merge(df_emp, df_job) %>% ggplot(aes(JobRole, Age, fill = JobRole)) + geom_boxplot() + ggtitle(paste("Box plot of Age by Job Role, n = ", count(df_emp))) + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 1))
+ggplotly(box_plot_age_role)
+
+# Box plot years in current role by job role
+box_plot_role_yicr <- merge(df_emp, df_job) %>% ggplot(aes(JobRole, YearsInCurrentRole, fill = JobRole)) + geom_boxplot() + ggtitle(paste("Box plot of Years in current role by Job Role, n = ", count(df_emp))) + xlab("Job Role") + ylab("Years in current role") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 0.5)) 
+ggplotly(box_plot_role_yicr) 
+
+# Bar plot job role by gender
+bar_plot_dodge_role_gender <- merge(df_job, df_emp) %>% ggplot(aes(JobRole, fill = Gender)) + geom_bar(position = "dodge") + ggtitle(paste("Bar plot of Job Roles by Gender,  n = ", count(df))) + xlab("Job Role") + ylab("Count") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 0.5))
+ggplotly(bar_plot_dodge_role_gender)
 
 # Box plot of monthly income by job role
 box_plot_income_role <- df %>% ggplot(aes(JobRole, MonthlyIncome, fill = JobRole)) + geom_boxplot() + ggtitle(paste("Box plot of Monthly Income by Job Role, n = ", count(df))) + xlab("Job Role") + ylab("Monthly Income (USD)") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 0.5)) 
 ggplotly(box_plot_income_role) 
 
 # Box plot hourly rate by education
-merge(df_emp, df_pay) %>% ggplot(aes(Education, HourlyRate, color = EducationField)) + geom_boxplot() + ggtitle(paste("Box plot of Education v. Hourly Rate by Education Field, n = ", count(df_emp))) + xlab("Education") + ylab("Hourly Rate (USD/Hour)")
-
-# Bar plot job role by gender
-bar_plot_dodge_role_gender <- merge(df_job, df_emp) %>% ggplot(aes(JobRole, fill = Gender)) + geom_bar(position = "dodge") + ggtitle(paste("Bar plot of Job Roles by Gender,  n = ", count(df))) + xlab("Job Role") + ylab("Count") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 0.5))
-ggplotly(bar_plot_dodge_role_gender)
+box_plot_hourly_edu <- merge(df_emp, df_pay) %>% ggplot(aes(Education, HourlyRate, fill = EducationField)) + geom_boxplot() + ggtitle(paste("Box plot of Education v. Hourly Rate by Education Field, n = ", count(df_emp))) + xlab("Education") + ylab("Hourly Rate (USD/Hour)")
+box_plot_hourly_edu
 
 # Bar plot of job satisfaction by job role
 bar_plot_dodge_job_sat <- df %>% ggplot(aes(JobSatisfaction, fill = JobRole)) + geom_bar(position = "dodge") + ggtitle(paste("Bar plot of Job Satisfaction by Job Roles,  n = ", count(df))) + xlab("Job Satisfaction") + ylab("Count") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 1))
@@ -171,8 +186,31 @@ hist_wrap_income_role <- df %>% ggplot(aes(MonthlyIncome, fill = JobRole)) + geo
 ggplotly(hist_wrap_income_role)
 
 # Histogram of job satisfaction by job role
-hist_wrap_income_sat <- df %>% ggplot(aes(MonthlyIncome, fill = JobRole)) + geom_histogram(binwidth = 200) + ggtitle(paste("Histogram of Monthly Income by Job Satisfaction, n = ", count(df))) + xlab("Monthly Income (USD)") + ylab("Count") + facet_wrap(~JobSatisfaction)
+hist_wrap_income_sat <- df %>% ggplot(aes(MonthlyIncome, fill = JobRole, position = "stack")) + geom_histogram(binwidth = 200) + ggtitle(paste("Histogram of Monthly Income by Job Satisfaction, n = ", count(df))) + xlab("Monthly Income (USD)") + ylab("Count") + facet_wrap(~JobSatisfaction)
 ggplotly(hist_wrap_income_sat)
+
+### Attritional Factors by Variables ###
+
+# Bar plot of attrition by job role
+hist_att_role <- merge(df_emp, df_job) %>% ggplot(aes(JobRole, fill = Attrition)) + geom_bar(position = "stack") + ggtitle(paste("Bar plot of Attrition by Job Role, n = ", count(df_emp))) + xlab("Job Role") + ylab("Count") + theme(axis.text.x = element_text(angle = 15, vjust = 0, hjust = 1))
+ggplotly(hist_att_role)
+
+# Bar plot of attrition v. gender by job role
+hist_wrap_role_gender <- merge(df_emp, df_job) %>% ggplot(aes(Attrition, fill = Gender)) + geom_bar(position = "dodge") + ggtitle(paste("Bar plot of Attrition by Gender, n = ", count(df_emp))) + xlab("Attrition") + ylab("Count") + facet_wrap(~JobRole)
+ggplotly(hist_wrap_role_gender)
+
+# Plot of performance v. distance from home by job role
+smooth_wrap_dist_rating <- merge(df_emp, df_job) %>% ggplot(aes(DistanceFromHome, PerformanceRating, color = JobRole)) + geom_smooth() + facet_wrap(~JobRole)
+ggplotly(smooth_wrap_dist_rating)
+
+# Plot of performance v. number of companies worked by job role
+smooth_wrap_numcos_rating <- merge(df_emp, df_job) %>% ggplot(aes(NumCompaniesWorked, PerformanceRating, color = JobRole)) + geom_smooth() + facet_wrap(~JobRole)
+ggplotly(smooth_wrap_numcos_rating)
+
+# Plot of performance v. years since last promotion by job role
+smooth_wrap_promo_rating <- merge(df_emp, df_job) %>% ggplot(aes(YearsSinceLastPromotion, PerformanceRating, color = JobRole)) + geom_smooth() + facet_wrap(~JobRole)
+ggplotly(smooth_wrap_promo_rating)
+
 
 ```
 
@@ -180,16 +218,128 @@ ggplotly(hist_wrap_income_sat)
 ### KNN Classification
 ```{r knn}
 source("analysis/knn.R")
+
+# Classification - salary
+
+
+
+df_train <- df_cs2 %>%
+  select(Attrition, MonthlyIncome, MonthlyRate)
+df_test <- df_cs2_no_attrition %>%
+  select(MonthlyIncome, MonthlyRate)
+
+# 70/30 Split Cross Validation - Monthly Income v. Monthly Rate
+
+set.seed(2)
+
+split_percent = 0.7
+
+role_sales_exec_rep <- df_cs2 %>% filter(JobRole == "Sales Executive" | JobRole == "Sales Representative") %>% mutate(JobRole = as.factor(JobRole))
+
+train_ind <- sample(1:dim(role_sales_exec_rep)[1], round(split_percent*dim(role_sales_exec_rep)[1]))
+train = role_sales_exec_rep[train_ind,]
+test = role_sales_exec_rep[-train_ind,]
+
+role_sales_exec_rep %>% ggplot(aes(MonthlyIncome, MonthlyRate, color = JobRole)) + geom_point()
+
+# k = 3
+classification <- knn(train[,20:21], test[,20:21], train$Attrition, k = 3, prob = TRUE)
+table(classification, test$JobRole)
+#########confusionMatrix(table(classification, test$JobRole), test$JobRole)
+# k = 5
+classification <- knn(train[,20:21], test[,20:21], train$Attrition, k = 5, prob = TRUE)
+table(classification, test$JobRole)
+confusionMatrix(table(classification, test$JobRole))
+# k = 15
+classification <- knn(train[,20:21], test[,20:21], train$Attrition, k = 10, prob = TRUE)
+table(classification, test$JobRole)
+confusionMatrix(table(classification, test$JobRole))
+
+# Internal Cross Validation
+knn.cv(train[,20:21], train$JobRole, k = 3)
+
+
 ```
 ### Naive Bayes Classification
 ```{r naivebayes}
-source("analysis/nb.R")
+#source("analysis/nb.R")
+
+attrition <- df_cs2 %>% 
+  select(Attrition, JobRole, JobSatisfaction)
+
+model = naiveBayes(Attrition~., data = attrition)
+CM = confusionMatrix(table(predict(model, attrition[,2:3]), attrition$Attrition))
+CM
+
+iter = 100
+arr_acc = matrix(nrow = iter)
+split_percent = 0.7
+
+for (j in 1:iter) {
+  train_ind = sample(1:dim(attrition)[1], round(split_percent * dim(attrition)[1]))
+  train = attrition[train_ind,]
+  test = attrition[-train_ind,]
+  test$Attrition
+  model = naiveBayes(train[,c(2,3)], train$Attrition, laplace = 1)
+  table(predict(model, test[,c(2,3)], test$Attrition))
+  CM = confusionMatrix(table(predict(model, test[,2:3], test$Attrition)))
+  arr_acc[j] <- CM$overall[1]
+}
+mean_acc <- colMeans(arr_acc)
+mean_acc
 ```
 ### Linear Regression Analysis
 ```{r regression}
-source("analysis/lm.R")
+#source("analysis/lm.R")
+
+fit <- lm(MonthlyIncome~MonthlyRate, data = df_pay)
+
+df_pay %>% ggplot(aes(MonthlyIncome, MonthlyRate)) + geom_point() + geom_smooth(method = "lm")
+
+beta_0_hat <- fit$coefficients[1]
+beta_1_hat <- fit$coefficients[2]
+
+SE_beta_0_hat <- summary(fit)$coefficients[1,2]
+SE_beta_1_hat <- summary(fit)$coefficients[2,2]
+
+# Intercept
+tstat_int <- beta_0_hat / SE_beta_0_hat
+pvalue_int <- (1-pt(tstat, length(df_pay$MonthlyIncome)-2)) * 2
+tstat_int
+pvalue_int
+
+# Slope
+tstat_slope <- beta_1_hat / SE_beta_1_hat
+pvalue_slope <- (pt(tstat, length(df_pay)-2)) * 2
+tstat_slope
+pvalue_slope
+
+summary(fit)
+confint(fit)
+
+# Welch Two Sample t-test
+t.test(df_pay$MonthlyIncome, df_pay$MonthlyRate)
+
+# Conduct Hypothesis Test
+
+# LOOCV
+pred_error_sq <- c(0)
+for(i in 1:dim(df_pay)[1]) {
+  loocv_i <- df_pay[-i,]
+  fit <- lm(MonthlyIncome ~ MonthlyRate, data = loocv_i)
+  pred_i <- predict(fit, data.frame(MonthlyRate = df_pay[i,4]))
+  pred_error_sq <- pred_error_sq + (df_pay[i,4] - pred_i)^2
+}
+SSE <- var(df_pay$MonthlyIncome)
+R_squared <-  1 - (pred_error_sq/SSE)
+MSE <- pred_error_sq / length(df_pay)
+RMSE <- sqrt(pred_error_sq/length(df_pay))
+RMSE
+
+
 ```
 ## Present the Case Study 2 data frame
 ```{r app}
-
+getwd()
+source("App.Rmd")
 ```
