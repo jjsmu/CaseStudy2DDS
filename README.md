@@ -111,10 +111,10 @@ Variable Descriptions:
 | YearsWithCurrManager   | Years with current Manager | Integer     | Length of Job Role |
 | CurrManager   | NaN | NaN      | NaN |
 
-Contact Information: 
+8. Contact Information: 
 Please contact information for the individual(s) responsible for the data and codebook, in case there are questions or the need for further clarification directly through GitHub.
 
-References and Acknowledgments:
+9. References and Acknowledgments:
 
 APA Citation:
 
