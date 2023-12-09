@@ -9,7 +9,7 @@ Case Study 02
 <a href="#">Link to Case Study 2 Zoom Presentation Video</a>
 
 ## Executive Summary
-Purpose and Context: The purpose of this case study is to identify factors responsible for employee attrition rates. The dat
+Purpose and Context: DDSAnalytics, a firm known for its expertise in talent management solutions tailored for Fortune 100 companies, focuses on the continuous cycle of developing and maintaining its workforce. The company encompasses aspects in strategic workforce planning, implementing employee training initiatives, spotting employees with high potential, and tackling the issue of voluntary employee turnover, commonly known as "attrition". DDSAnalytics plans to integrate data science into its talent management strategies, and as a primary step to this integration, the company's leadership is applying data science to predict employee attrition. They have assigned the task of analyzing current employee data to your data science team.
 
 Key Findings and Facts: It highlights the most important findings or data points from the report.
 
@@ -23,13 +23,38 @@ Frito-Lay, a division of PepsiCo, has a rich heritage dating back to the 1930s, 
 
 
 ## Code book
-Creating a codebook for a data science project is an essential step for ensuring clarity, reproducibility, and ease of understanding for anyone who interacts with your data and code. A well-structured codebook serves as a guide, detailing the data, variables, coding procedures, and analytical methods used in your project. Here are some best practices for writing an effective codebook:
 
 Introduction and Background:
 
-Provide an overview of the project, including its objectives and key questions.
-Include information about the data sources and the methodology used for data collection.
+To conduct a comprehensive data analysis on the provided dataset (CaseStudy2-data.csv) for identifying factors leading to attrition, we must follow a structured approach using R. Here's a breakdown of the steps we took :
 
+1. Data Exploration and Preprocessing:
+Load the dataset into R.
+Perform initial exploratory data analysis (EDA) to understand the structure, missing values, and basic statistics.
+Preprocess the data by handling missing values, outliers, and potentially normalizing or transforming features if necessary.
+
+2. Feature Engineering:
+Create derived attributes if needed. This involves understanding the business context and the potential factors that could lead to attrition.
+For example, combining 'years at company' and 'job role' to see if long-term employees in certain roles are more likely to leave.
+
+3. Identifying Top Factors for Attrition:
+Use statistical tests and visualization to identify key factors that contribute to turnover. This could include chi-square tests for categorical variables, t-tests for continuous variables, or ANOVA where applicable.
+Correlation analysis might also be helpful to see the strength and direction of relationships between variables.
+Role-Specific Trends Analysis:
+
+Perform subgroup analyses for different job roles to identify any specific trends (e.g., job satisfaction levels, average tenure before leaving, etc.).
+Visualization of these trends will be crucial for easy interpretation and presentation.
+
+4. Building a Predictive Model for Attrition:
+Split the data into training and test sets.
+Train a predictive model (like logistic regression, decision trees, or random forest) to predict attrition.
+Evaluate the model using appropriate metrics (accuracy, precision, recall, F1 score, ROC curve).
+
+5. Developing an RShiny App:
+Design and develop a RShiny application to visualize the data and the findings from the analysis.
+The app should allow users to interactively explore different variables and their impact on attrition.
+
+6. Documentation and Reporting:
 Dataset Description:
 
 Three (3) Data set provided by Frito-Lay, Inc. 
