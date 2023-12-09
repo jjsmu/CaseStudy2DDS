@@ -9,7 +9,7 @@ Case Study 02
 <a href="#">Link to Case Study 2 Zoom Presentation Video</a>
 
 ## Executive Summary
-Purpose and Context: It begins with a brief statement of the report's purpose and the problem or issue it addresses.
+Purpose and Context: The purpose of this case study is to identify factors responsible for employee attrition rates. The dat
 
 Key Findings and Facts: It highlights the most important findings or data points from the report.
 
@@ -19,6 +19,9 @@ Recommendations: If applicable, it includes the main recommendations or action i
 
 ## Introduction
 
+Frito-Lay, a division of PepsiCo, has a rich heritage dating back to the 1930s, stemming from the merger of The Frito Company and H.W. Lay & Company. This merger created a snack food giant with a diverse portfolio of beloved brands like Fritos, Lay's, Cheetos, Doritos, and Tostitos. The company's significant growth led to a merger with Pepsi-Cola in 1965, forming PepsiCo. Today, Frito-Lay is a market leader with a strong commitment to sustainability and innovation. It continually invests in technology to enhance its manufacturing processes, ensuring wide accessibility to its products. Frito-Lay's ongoing success is marked by its extensive range of products and its strategic vision for future growth and sustainability.
+
+
 ## Code book
 Creating a codebook for a data science project is an essential step for ensuring clarity, reproducibility, and ease of understanding for anyone who interacts with your data and code. A well-structured codebook serves as a guide, detailing the data, variables, coding procedures, and analytical methods used in your project. Here are some best practices for writing an effective codebook:
 
@@ -26,10 +29,24 @@ Introduction and Background:
 
 Provide an overview of the project, including its objectives and key questions.
 Include information about the data sources and the methodology used for data collection.
+
 Dataset Description:
 
+Three (3) Data set provided by Frito-Lay, Inc. 
+| Column Name | Description | Data Type | Notes |
+|-------------|-------------|-----------|-------|
+| 1   | CaseStudy2-data.csv | CSV File      | 136KB |
+| 2   | CaseStudy2CompSet No Attrition.csv | CSV File      | 47KB |
+| 3   | CaseStudy2CompSet No Salary.csv | CSV File      | 46KB |
+
+- CaseStudy2-data.csv contains a total 870 entries with 36 variables of type integer, character class (as of 11/28/2023)
+- CaseStudy2CompSet No Attrition.csv contains a total 300 entries with 35 variables of type integer, character class (as of 11/28/2023)
+- CaseStudy2CompSet No Salary.csv contains a total 300 entries with 35 variables of type integer, character class (as of 11/28/2023). 
+
 Describe the dataset in general terms, including the size (number of records and variables), the type of data (e.g., survey, transactional), and the period it covers.
+
 Mention any data transformations or preprocessing steps applied.
+
 Variable Descriptions:
 
 List each variable included in your dataset.
