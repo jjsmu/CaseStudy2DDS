@@ -54,26 +54,26 @@ For each variable, provide:
 | JobInvolvement   | Job Involvement | Integer      | Scale 1 - 4 |
 | JobLevel   | Job Level Difficulty | Integer      | Level 1 - 5 |
 | JobRole   | Job Role | Character      | Research, Sales, Directorate, Lab Tech, Healthcare, Manager, HR  |
-| JobSatisfaction   | Description | Factor      | Notes |
-| MaritalStatus   | Description | Factor      | Notes |
-| MonthlyIncome   | Description | Numeric      | Notes |
-| MonthlyRate   | Description | Numeric      | Notes |
-| NumCompaniesWorked   | Description | Integer      | Notes |
-| Over18   | Description | Logical      | Notes |
-| OverTime   | Description | Logical      | Notes |
-| PercentSalaryHike   | Description | Numeric      | Notes |
-| PerformanceRating   | Description | Factor      | Notes |
-| RelationshipSatisfaction   | Description | Factor      | Notes |
-| StandardHours   | Description | Integer      | Notes |
-| StockOptionLevel   | Description | Factor      | Notes |
-| TotalWorkingYears | Description | Integer      | Notes |
-| TrainingTimesLastYear   | Description | Integer      | Notes |
-| WorkLifeBalance   | Description | Factor      | Notes |
-| YearsAtCompany   | Description | Integer      | Notes |
-| YearsInCurrentRole   | Description | Integer      | Notes |
-| YearsSinceLastPromotion   | Years since last promotion | Integer      | Notes |
-| YearsWithCurrManager   | Years with current Manager | Integer     | Notes |
-| CurrManager   | Current Manager | Character      | Notes |
+| JobSatisfaction   | Job Satisfaction | Integer      | Scale 1 - 4 |
+| MaritalStatus   | Marital Status | Character      | Divorced, Single, Married |
+| MonthlyIncome   | Monthly Income | Integer      | USD |
+| MonthlyRate   | Monthly Rate | Integer      | USD |
+| NumCompaniesWorked   | Number of Companies Worked | Integer | Work History |
+| Over18   | Over 18 | Character      | Yes, No |
+| OverTime   | Over Time | Character      | Yes, No |
+| PercentSalaryHike   | Percent Salary Hike | Integer      | (%) Percentage |
+| PerformanceRating   | Performance Rating | Integer      | Scale 1 - 4 |
+| RelationshipSatisfaction   | Relationship Satisfaction | Integer      | Scale 1 - 4 |
+| StandardHours   | Standard Hours | Integer      | Standard 80, Overtime |
+| StockOptionLevel   | Stock Option Level | Integer      | Level 0 - 3 |
+| TotalWorkingYears | Total Working Years | Integer      | Employee Lifetime |
+| TrainingTimesLastYear   | Training Times Last Year | Integer      | Company Sponsored Training |
+| WorkLifeBalance   | Work Life Balance | Integer      | Scale 1 - 4 |
+| YearsAtCompany   | Years At Company | Integer      | Company Tenure |
+| YearsInCurrentRole   | Years in Current Role | Integer      | Total Time working in Job Role |
+| YearsSinceLastPromotion   | Years since last promotion | Integer      | Last promotion year |
+| YearsWithCurrManager   | Years with current Manager | Integer     | Length of Job Role |
+| CurrManager   | NaN | NaN      | NaN |
 
 A detailed description (what it represents, how it was measured).
 The variable type (e.g., numeric, categorical).
