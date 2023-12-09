@@ -37,23 +37,23 @@ For each variable, provide:
 
 | Column Name | Description | Data Type | Notes |
 |-------------|-------------|-----------|-------|
-| ID   | Description | Integer      | Notes |
-| Age   | Description | Integer      | Notes |
-| Attrition   | Description | Logical      | Notes |
-| BusinessTravel | Description | Factor      | Notes |
-| DailyRate   | Description | Numeric      | Notes |
-| Department   | Description | Character      | Notes |
-| DistanceFromHome   | Description | Numeric      | Notes |
-| Education   | Description | Factor      | Notes |
-| EducationField   | Description | Character      | Notes |
-| EmployeeCount   | Description | Integer      | Notes |
-| EmployeeNumber   | Description | Integer      | Notes |
-| EnvironmentSatisfaction   | Description | Factor      | Notes |
-| Gender   | Description | Factor      | Notes |
-| HourlyRate   | Description | Numeric      | Notes |
-| JobInvolvement   | Description | Factor      | Notes |
-| JobLevel   | Description | Factor      | Notes |
-| JobRole   | Description | Character      | Notes |
+| ID   | Table Identification | Integer      | Primary Key, Unique |
+| Age   | Current Age | Integer      | Notes |
+| Attrition   | Employee Attrition  | Character      | Yes, No |
+| BusinessTravel | Business Travel Frequency | Character      | Rarely, Frequently |
+| DailyRate   | Employee Per Diem | Integer      | Notes |
+| Department   | Department | Character      | Research & Development, Sales, Human Resources|
+| DistanceFromHome   | Distance from Home | Integer      | Imperial Units |
+| Education   | Description | Integer      | Level 1, 2, 3, 4, 5 |
+| EducationField   | Description | Character      | Life Science, Human Res., Marketing, Medical, Other, Technical Degree|
+| EmployeeCount   | Employee Status | Integer      | Status |
+| EmployeeNumber   | Employee Identifcation | Integer      | No. 1-870 |
+| EnvironmentSatisfaction   | Environmental Satisfaction | Integer      | Scale 1 - 4 |
+| Gender   | Gender Identity | Character      | Male, Female |
+| HourlyRate   | Hourly Rate | Integer      | USD |
+| JobInvolvement   | Job Involvement | Integer      | Scale 1 - 4 |
+| JobLevel   | Job Level Difficulty | Integer      | Level 1 - 5 |
+| JobRole   | Job Role | Character      | Research, Sales, Directorate, Lab Tech, Healthcare, Manager, HR  |
 | JobSatisfaction   | Description | Factor      | Notes |
 | MaritalStatus   | Description | Factor      | Notes |
 | MonthlyIncome   | Description | Numeric      | Notes |
