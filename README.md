@@ -29,35 +29,35 @@ Introduction and Background:
 To conduct a comprehensive data analysis on the provided dataset (CaseStudy2-data.csv) for identifying factors leading to attrition, we must follow a structured approach using R. Here's a breakdown of the steps we took :
 
 1. Data Exploration and Preprocessing:
-Load the dataset into R.
-Perform initial exploratory data analysis (EDA) to understand the structure, missing values, and basic statistics.
+Load the dataset into R from AWS S3 bucket (casestudy2).
+Perform initial exploratory data analysis (EDA) to understand the structure, missing values, and basic statistics. In this case, all data observations were preserved.
 Preprocess the data by handling missing values, outliers, and potentially normalizing or transforming features if necessary.
 
 2. Feature Engineering:
-Create derived attributes if needed. This involves understanding the business context and the potential factors that could lead to attrition.
-For example, combining 'years at company' and 'job role' to see if long-term employees in certain roles are more likely to leave.
+Creation of derived attributes as needed. This involves understanding the business context and the potential factors that could lead to attrition. (e.g. Years In Current Role and Percent Salary Hike to determine employee workplace mobility).
 
 3. Identifying Top Factors for Attrition:
-Use statistical tests and visualization to identify key factors that contribute to turnover. This could include chi-square tests for categorical variables, t-tests for continuous variables, or ANOVA where applicable.
+Use of statistical tests and visualization to identify key factors that contribute to turnover. This includes the 6-step Hypothesis test and Welch's t-test for continuous variables like Monthly Income and Monthly Rate, or ANOVA where applicable.
 Correlation analysis might also be helpful to see the strength and direction of relationships between variables.
-Role-Specific Trends Analysis:
 
+4. Role-Specific Trends Analysis:
 Perform subgroup analyses for different job roles to identify any specific trends (e.g., job satisfaction levels, average tenure before leaving, etc.).
 Visualization of these trends will be crucial for easy interpretation and presentation.
 
-4. Building a Predictive Model for Attrition:
-Split the data into training and test sets.
-Train a predictive model (like logistic regression, decision trees, or random forest) to predict attrition.
+5. Building a Predictive Model for Attrition:
+Split the data into 70/30 training and test sets.
+Train a predictive model using logistic regression, KNN and Naive Bayes to predict attrition.
 Evaluate the model using appropriate metrics (accuracy, precision, recall, F1 score, ROC curve).
 
-5. Developing an RShiny App:
+6. Developing an RShiny App:
 Design and develop a RShiny application to visualize the data and the findings from the analysis.
 The app should allow users to interactively explore different variables and their impact on attrition.
 
-6. Documentation and Reporting:
-Dataset Description:
+7. Documentation and Reporting:
 
+Dataset and description: 
 Three (3) Data set provided by Frito-Lay, Inc. 
+
 | Column Name | Description | Data Type | Notes |
 |-------------|-------------|-----------|-------|
 | 1   | CaseStudy2-data.csv | CSV File      | 136KB |
@@ -68,14 +68,8 @@ Three (3) Data set provided by Frito-Lay, Inc.
 - CaseStudy2CompSet No Attrition.csv contains a total 300 entries with 35 variables of type integer, character class (as of 11/28/2023)
 - CaseStudy2CompSet No Salary.csv contains a total 300 entries with 35 variables of type integer, character class (as of 11/28/2023). 
 
-Describe the dataset in general terms, including the size (number of records and variables), the type of data (e.g., survey, transactional), and the period it covers.
-
-Mention any data transformations or preprocessing steps applied.
 
 Variable Descriptions:
-
-List each variable included in your dataset.
-For each variable, provide:
 
 | Column Name | Description | Data Type | Notes |
 |-------------|-------------|-----------|-------|
@@ -85,7 +79,7 @@ For each variable, provide:
 | BusinessTravel | Business Travel Frequency | Character      | Rarely, Frequently |
 | DailyRate   | Employee Per Diem | Integer      | Notes |
 | Department   | Department | Character      | Research & Development, Sales, Human Resources|
-| DistanceFromHome   | Distance from Home | Integer      | Imperial Units |
+| DistanceFromHome   | Distance from Home | Integer      | Unit of measurement |
 | Education   | Description | Integer      | Level 1, 2, 3, 4, 5 |
 | EducationField   | Description | Character      | Life Science, Human Res., Marketing, Medical, Other, Technical Degree|
 | EmployeeCount   | Employee Status | Integer      | Status |
@@ -117,39 +111,15 @@ For each variable, provide:
 | YearsWithCurrManager   | Years with current Manager | Integer     | Length of Job Role |
 | CurrManager   | NaN | NaN      | NaN |
 
-A detailed description (what it represents, how it was measured).
-The variable type (e.g., numeric, categorical).
-The units of measurement (if applicable).
-Any coding information (e.g., 1 = Male, 2 = Female for a gender variable).
-Information on how missing values are represented.
-Any derived or calculated variables should be clearly explained (how they were derived, formulas used).
+Contact Information: 
+Please contact information for the individual(s) responsible for the data and codebook, in case there are questions or the need for further clarification directly through GitHub.
 
-Data Cleaning and Preprocessing:
-Document any data cleaning or preprocessing steps (e.g., handling of missing data, data filtering, normalization).
-Explain why these steps were necessary and how they were performed.
-Analytical Methods:
-
-Detail the statistical methods and algorithms used for data analysis.
-Include any assumptions made by the analytical methods.
-If applicable, explain the rationale for choosing these methods.
-Sample Code and Examples:
-
-Provide sample code snippets to illustrate how the data can be loaded, processed, and analyzed.
-Include comments in the code for clarity.
-Results and Interpretation (if applicable):
-
-Summarize key findings and how they relate to the variables in your codebook.
-If the codebook is part of a larger report or publication, this section might refer to that document for more details.
-Versioning and Updates:
-
-Include information about the version of the dataset and codebook.
-Document any updates or changes made to the dataset or analytical methods over time.
-Contact Information:
-
-Provide contact information for the individual(s) responsible for the data and codebook, in case there are questions or the need for further clarification.
 References and Acknowledgments:
+APA Citation
+-FactSet.(2023). Merrill Edge – Profile: PEP – PEPSICO, INC. – Stock Story, Merrill Edge. Accessed 8 December 2023.       olui2.fs.ml.com/RIStocksUI/RIStocksStory.aspx?Symbol=PEP#/stock-story/PEP/0.
+-OpenAI.(2023). ChatGPT response to query on Frito-Lay. ChatGPT.
+-FritoLay Logo [Online Image]. (2023). Logos | FritoLay. fritolay.com/logos
+-pep+ logo [Online Image]. (2023). Media | pep+ logo. pepsico.com/mediadownload-item/pep-logo
+pepsiCo, Inc. (PEP) (2023). Profile, Summary. Yahoo!Finance. finance.yahoo.com/quote/PEP?p=PEP
 
-Cite any external sources used in the data collection or analysis.
-Acknowledge contributors or funding sources.
-Remember, the key goal of a codebook is to make your data understandable and usable by others (including your future self). It should be detailed enough that someone else could replicate your analyses without needing additional information.
 
