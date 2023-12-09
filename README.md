@@ -115,11 +115,16 @@ Contact Information:
 Please contact information for the individual(s) responsible for the data and codebook, in case there are questions or the need for further clarification directly through GitHub.
 
 References and Acknowledgments:
-APA Citation
--FactSet.(2023). Merrill Edge – Profile: PEP – PEPSICO, INC. – Stock Story, Merrill Edge. Accessed 8 December 2023.       olui2.fs.ml.com/RIStocksUI/RIStocksStory.aspx?Symbol=PEP#/stock-story/PEP/0.
--OpenAI.(2023). ChatGPT response to query on Frito-Lay. ChatGPT.
--FritoLay Logo [Online Image]. (2023). Logos | FritoLay. fritolay.com/logos
--pep+ logo [Online Image]. (2023). Media | pep+ logo. pepsico.com/mediadownload-item/pep-logo
+
+APA Citation:
+
+FactSet.(2023). Merrill Edge – Profile: PEP – PEPSICO, INC. – Stock Story, Merrill Edge. Accessed 8 December 2023.       olui2.fs.ml.com/RIStocksUI/RIStocksStory.aspx?Symbol=PEP#/stock-story/PEP/0.
+
+OpenAI.(2023). ChatGPT response to query on Frito-Lay. ChatGPT.
+
+FritoLay Logo [Online Image]. (2023). Logos | FritoLay. fritolay.com/logos
+
+pep+ logo [Online Image]. (2023). Media | pep+ logo. pepsico.com/mediadownload-item/pep-logo
 pepsiCo, Inc. (PEP) (2023). Profile, Summary. Yahoo!Finance. finance.yahoo.com/quote/PEP?p=PEP
 
 
