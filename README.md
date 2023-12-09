@@ -115,7 +115,7 @@ Variable Descriptions:
 | CurrManager   | NaN | NaN      | NaN |
 
 8. Contact Information: 
-Please contact information for the individual(s) responsible for the data and codebook, in case there are questions or the need for further clarification directly through GitHub.
+Please contact the individual(s) responsible for the data and codebook, in case there are questions or the need for further clarification directly through GitHub.
 
 9. References and Acknowledgments:
 
