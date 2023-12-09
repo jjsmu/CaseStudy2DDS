@@ -30,6 +30,7 @@ install.packages("GGally")
 install.packages("plotly")
 install.packages("e1071")
 install.packages("aws.s3")
+install.packages("ggthemes")
 
 # Load Libraries
 library(aws.s3)
@@ -37,115 +38,158 @@ library(e1071)
 library(ggplot2)
 library(GGally)
 library(plotly)
-#library(magrittr)
 library(tidyverse)
 library(naniar)
+library(ggthemes)
 ```
 
-## Import the Case Study 2 df_casestudy2set
+## Import the Case Study 2 data set
 
-```{r, echo=FALSE}
-
-# Source Exploratory df_casestudy2 Analysis R script to relative path
-#source("analysis/eda.R", echo=FALSE)
+```{r import}
 
 # Get the current working directory
 getwd()
-
-# Set the current directory to the df_casestudy2 folder
-#setwd("df_casestudy2")
+# Set the current directory to the data folder
+#setwd()
 
 # List files in root dir
 list.files()
 
-# Fetch df_casestudy2set from local df_casestudy2 folder
-#df_cs2 = read.csv("df_casestudy2/CaseStudy2-df_casestudy2.csv", header = TRUE) # TODO change to relative path file
-#df_cs2_no_attrition = read.csv("df_casestudy2/CaseStudy2CompSet No Attrition.csv", header = TRUE) # TODO change to relative path file
-#df_cs2_no_salary = read.csv("df_casestudy2/CaseStudy2CompSet No Salary.csv", header = TRUE) # TODO change to relative path file
+# Fetch data set from local folder
+df_cs2 = read.csv("data/CaseStudy2-data.csv", header = TRUE) # TODO change to relative path file
+df_cs2_no_attrition = read.csv("data/CaseStudy2CompSet No Attrition.csv", header = TRUE) # TODO change to relative path file
+df_cs2_no_salary = read.csv("data/CaseStudy2CompSet No Salary.csv", header = TRUE) # TODO change to relative path file
 
-# Fetch datasets from AWS S3 repository
+# Optional: fetch datasets from AWS S3 repository
 Sys.setenv("AWS_ACCESS_KEY_ID" = "",
            "AWS_SECRET_ACCESS_KEY" = "",
            "AWS_DEFAULT_REGION" = "us-west-2")
 aws.s3::bucketlist()
 aws.s3::get_bucket("casestudy2")
-df_casestudy2 = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2-data.csv")
-df_cs2_no_attrition = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Attrition.csv")
-df_cs2_no_salary = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Salary.csv")
+#df_cs2 = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2-data.csv")
+#df_cs2_no_attrition = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Attrition.csv")
+#df_cs2_no_salary = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Salary.csv")
 
 ```
-## Tidy the Case Study 2 df_casestudy2set
-
-```{r}
-# Let's take a look at what we are working with first
-View(df_casestudy2)
+## Tidy the Case Study 2 Data Set
+```{r tidy, echo=FALSE}
+# View data frames in a table
+View(df_cs2)
 View(df_cs2_no_attrition)
 View(df_cs2_no_salary)
 
-
-# Next we want to see what's in the meta df_casestudy2set 
-str(df_casestudy2)
+# Print data frame metadata  
+str(df_cs2)
 str(df_cs2_no_attrition)
 str(df_cs2_no_salary)
 
-# Print summary of the df_casestudy2set
-summary(df_casestudy2)
+# Print summary of the data frames
+summary(df_cs2)
 summary(df_cs2_no_attrition)
 summary(df_cs2_no_salary)
 
 # Print the first 5 rows 
-head(df_casestudy2, n = 5)
-head(df_cs2_no_attrition, n = 5)
-head(df_cs2_no_salary, n = 5)
+head(df_cs2, n = 25)
+head(df_cs2_no_attrition, n = 25)
+head(df_cs2_no_salary, n = 25)
+
 # Print the last 5 rows
-tail(df_casestudy2, n = 5)
-tail(df_cs2_no_attrition, n = 5)
-tail(df_cs2_no_salary, n = 5)
+tail(df_cs2, n = 25)
+tail(df_cs2_no_attrition, n = 25)
+tail(df_cs2_no_salary, n = 25)
 
 # Print the number of rows and columns
-dim(df_casestudy2)
+dim(df_cs2)
 dim(df_cs2_no_attrition)
 dim(df_cs2_no_salary)
 
 # Variables # missing
-gg_miss_var(df_casestudy2)
+gg_miss_var(df_cs2)
 gg_miss_var(df_cs2_no_attrition)
 gg_miss_var(df_cs2_no_salary)
 
+# Returns vector of variables # missing
+sapply(df_cs2, function(x) sum(is.na(x)))
+sapply(df_cs2_no_attrition, function(x) sum(is.na(x)))
+sapply(df_cs2_no_salary, function(x) sum(is.na(x)))
 ```
 
-## Transform the Case Study 2 df_casestudy2set
-```{r}
-# Dataframe employee basic information
-df_emp <- df_casestudy2 %>% 
-  select(ID, Age, Gender, Education, EducationField, DistanceFromHome, MaritalStatus, NumCompaniesWorked, TotalWorkingYears, YearsAtCompany, YearsInCurrentRole, YearsWithCurrManager, YearsSinceLastPromotion)
-# Dataframe employee company information
-df_jobs <- df_casestudy2 %>%
+## Transform the Case Study 2 Data Set
+```{r transform}
+
+# Simple Data frame with four variables
+df <- df_cs2 %>% 
+  select(ID, JobRole, JobSatisfaction, MonthlyIncome) 
+
+# Data frame employee job information
+df_job <- df_cs2 %>%
+  #filter(Attrition == "Yes") %>%
   select(ID, JobInvolvement, JobLevel, JobRole, JobSatisfaction)
-# Dataframe employee pay information
-df_pay <- df_casestudy2 %>%
-  select(ID, DailyRate, HourlyRate, MonthlyRate, MonthlyIncome, OverTime)
+
+# Data frame employee pay information
+df_pay <- df_cs2 %>%
+  #filter(Attrition == "Yes") %>%
+  select(ID, DailyRate, HourlyRate, MonthlyRate, MonthlyIncome, OverTime, PercentSalaryHike, StockOptionLevel, StandardHours)
+
+# Data frame employee basic information
+df_emp <- df_cs2 %>% 
+  #filter(Attrition == "Yes") %>%
+  select(ID, Age, Gender, Education, EducationField, Department, DistanceFromHome, MaritalStatus, NumCompaniesWorked, PerformanceRating, TotalWorkingYears, WorkLifeBalance, YearsAtCompany, YearsInCurrentRole, YearsWithCurrManager, YearsSinceLastPromotion)
 ```
 
-## Visualize the Case Study 2 df_casestudy2set
-```{r}
-# Distribution of Job Roles
-df_jobs %>% ggplot(aes(JobRole)) + geom_bar() 
+## Visualize the Case Study 2 Data Set
+### Perform Exploratory Data Analysis
+```{r eda}
+# Count the number of employees with attrition, we will compare with rest of sample later
+sum(df_cs2$Attrition == "Yes") 
 
+### Company Profile Snapshot: Age, Gender, Education, Pay, Role ###
+
+# Box plot Age by department
+df_emp %>% ggplot(aes(Department, Age, color = Department)) + geom_boxplot() + ggtitle(paste("Box plot of Age by Department, n = ", count(df_emp)))
+
+# Box plot years in current role by department
+df_emp %>% ggplot(aes(Department, YearsInCurrentRole, color = Department)) + geom_boxplot() + ggtitle(paste("Box plot of Years In Current Role by Department, n = ", count(df_emp)))
+
+# Box plot of monthly income by job role
+box_plot_income_role <- df %>% ggplot(aes(JobRole, MonthlyIncome, fill = JobRole)) + geom_boxplot() + ggtitle(paste("Box plot of Monthly Income by Job Role, n = ", count(df))) + xlab("Job Role") + ylab("Monthly Income (USD)") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 0.5)) 
+ggplotly(box_plot_income_role) 
+
+# Box plot hourly rate by education
+merge(df_emp, df_pay) %>% ggplot(aes(Education, HourlyRate, color = EducationField)) + geom_boxplot() + ggtitle(paste("Box plot of Education v. Hourly Rate by Education Field, n = ", count(df_emp))) + xlab("Education") + ylab("Hourly Rate (USD/Hour)")
+
+# Bar plot job role by gender
+bar_plot_dodge_role_gender <- merge(df_job, df_emp) %>% ggplot(aes(JobRole, fill = Gender)) + geom_bar(position = "dodge") + ggtitle(paste("Bar plot of Job Roles by Gender,  n = ", count(df))) + xlab("Job Role") + ylab("Count") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 0.5))
+ggplotly(bar_plot_dodge_role_gender)
+
+# Bar plot of job satisfaction by job role
+bar_plot_dodge_job_sat <- df %>% ggplot(aes(JobSatisfaction, fill = JobRole)) + geom_bar(position = "dodge") + ggtitle(paste("Bar plot of Job Satisfaction by Job Roles,  n = ", count(df))) + xlab("Job Satisfaction") + ylab("Count") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 1))
+ggplotly(bar_plot_dodge_job_sat)
+
+# Histogram of monthly income
+hist_wrap_income_role <- df %>% ggplot(aes(MonthlyIncome, fill = JobRole)) + geom_histogram(binwidth = 200) + ggtitle(paste("Histogram of Monthly Income by Job Role, n = ", count(df))) + xlab("Monthly Income (USD)") + ylab("Count") + theme(axis.text.x = element_text(angle = 15, vjust = 0, hjust = 0.1)) + facet_wrap(~JobRole)
+ggplotly(hist_wrap_income_role)
+
+# Histogram of job satisfaction by job role
+hist_wrap_income_sat <- df %>% ggplot(aes(MonthlyIncome, fill = JobRole)) + geom_histogram(binwidth = 200) + ggtitle(paste("Histogram of Monthly Income by Job Satisfaction, n = ", count(df))) + xlab("Monthly Income (USD)") + ylab("Count") + facet_wrap(~JobSatisfaction)
+ggplotly(hist_wrap_income_sat)
 
 ```
 
-
-### EDA: scatterplots, histograms, boxplots, barplot
-### 3D plots with plotly
-
-## Model the Case Study 2 df_casestudy2set
-
-### Classification
-```{r, echo = FALSE}
-# Linear Regression
-# Naive Bayes
-# KNN & LOOCV
+## Model the Case Study 2 data frame
+### KNN Classification
+```{r knn}
+source("analysis/knn.R")
 ```
+### Naive Bayes Classification
+```{r naivebayes}
+source("analysis/nb.R")
+```
+### Linear Regression Analysis
+```{r regression}
+source("analysis/lm.R")
+```
+## Present the Case Study 2 data frame
+```{r app}
 
-## Present the Case Study 2 df_casestudy2set
+```
