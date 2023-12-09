@@ -49,8 +49,8 @@ Visualization of these trends will be crucial for easy interpretation and presen
 
 5. Building a Predictive Model for Attrition:
 Split the data into 70/30 training and test sets.
-Train a predictive model using logistic regression, KNN and Naive Bayes to predict attrition.
-Evaluate the model using appropriate metrics (accuracy, precision, recall, F1 score, ROC curve).
+Train a predictive model using logistic regression, KNN and Naive Bayes to predict attrition salary using the provided CSV files "CaseStudy2CompSet No Attrition.csv" and "CaseStudy2CompSet No Salary.csv" in the local folder or using AWS S3 web services.
+Evaluate the model using appropriate metrics (accuracy, precision, recall, F1 score, ROC curve) running the appropriate libraries to analyze and fine tune the model.
 
 6. Developing an RShiny App:
 Design and develop a RShiny application to visualize the data and the findings from the analysis.
@@ -58,7 +58,7 @@ The app should allow users to interactively explore different variables and thei
 
 7. Documentation and Reporting:
 
-Dataset and description: 
+Data set and description: 
 Three (3) Data set provided by Frito-Lay, Inc. 
 
 | Column Name | Description | Data Type | Notes |
@@ -77,10 +77,10 @@ Variable Descriptions:
 | Column Name | Description | Data Type | Notes |
 |-------------|-------------|-----------|-------|
 | ID   | Table Identification | Integer      | Primary Key, Unique |
-| Age   | Current Age | Integer      | Notes |
+| Age   | Current Age | Integer      | Years |
 | Attrition   | Employee Attrition  | Character      | Yes, No |
 | BusinessTravel | Business Travel Frequency | Character      | Rarely, Frequently |
-| DailyRate   | Employee Per Diem | Integer      | Notes |
+| DailyRate   | Daily Rate | Integer      | Per Diem |
 | Department   | Department | Character      | Research & Development, Sales, Human Resources|
 | DistanceFromHome   | Distance from Home | Integer      | Unit of measurement |
 | Education   | Description | Integer      | Level 1, 2, 3, 4, 5 |
