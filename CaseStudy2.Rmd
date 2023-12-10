@@ -9,32 +9,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 ```{r, echo=FALSE}
 
 # Print Session Information 
 sessionInfo()
 
-# Install Packages
-#install.packages("ggplot2")
-#install.packages("tidyverse")
-#install.packages("naniar")
-#install.packages("GGally")
-#install.packages("plotly")
-#install.packages("caret")
-#install.packages("e1071")
-#install.packages("class")
-#install.packages("aws.s3")
-#install.packages("ggthemes")
-
-# Load Libraries
 library(aws.s3)
 library(class)
 library(caret)
@@ -53,63 +33,39 @@ library(ggthemes)
 
 # Get the current working directory
 getwd()
-# Set the current directory to the data folder
-#setwd()
 
 # List files in root dir
 list.files()
 
 # Fetch data set from local folder
-df_cs2 = read.csv("data/CaseStudy2-data.csv", header = TRUE) # TODO change to relative path file
-df_cs2_no_attrition = read.csv("data/CaseStudy2CompSet No Attrition.csv", header = TRUE) # TODO change to relative path file
-df_cs2_no_salary = read.csv("data/CaseStudy2CompSet No Salary.csv", header = TRUE) # TODO change to relative path file
+df_cs2 = read.csv("data/CaseStudy2-data.csv", header = TRUE) 
+df_cs2_no_attrition = read.csv("data/CaseStudy2CompSet No Attrition.csv", header = TRUE) 
+df_cs2_no_salary = read.csv("data/CaseStudy2CompSet No Salary.csv", header = TRUE) 
 
 ```
 ## Tidy the Case Study 2 Data Set
 ```{r tidy, echo=FALSE}
 # View data frames in a table
 View(df_cs2)
-View(df_cs2_no_attrition)
-View(df_cs2_no_salary)
 
 # Print data frame metadata  
 str(df_cs2)
-str(df_cs2_no_attrition)
-str(df_cs2_no_salary)
 
 # Print summary of the data frames
 summary(df_cs2)
-summary(df_cs2_no_attrition)
-summary(df_cs2_no_salary)
-
-# Print the first 5 rows 
-head(df_cs2, n = 25)
-head(df_cs2_no_attrition, n = 25)
-head(df_cs2_no_salary, n = 25)
-
-# Print the last 5 rows
-tail(df_cs2, n = 25)
-tail(df_cs2_no_attrition, n = 25)
-tail(df_cs2_no_salary, n = 25)
 
 # Print the number of rows and columns
 dim(df_cs2)
-dim(df_cs2_no_attrition)
-dim(df_cs2_no_salary)
 
 # Variables # missing
 gg_miss_var(df_cs2)
-gg_miss_var(df_cs2_no_attrition)
-gg_miss_var(df_cs2_no_salary)
 
 # Returns vector of variables # missing
 sapply(df_cs2, function(x) sum(is.na(x)))
-sapply(df_cs2_no_attrition, function(x) sum(is.na(x)))
-sapply(df_cs2_no_salary, function(x) sum(is.na(x)))
 ```
 
 ## Transform the Case Study 2 Data Set
-```{r transform}
+```{r transform, echo = FALSE}
 
 # Simple Data frame with four variables
 df <- df_cs2 %>% 
@@ -162,10 +118,6 @@ ggplotly(bar_plot_dodge_role_gender)
 # Box plot of monthly income by job role
 box_plot_income_role <- df %>% ggplot(aes(JobRole, MonthlyIncome, fill = JobRole)) + geom_boxplot() + ggtitle(paste("Box plot of Monthly Income by Job Role, n = ", count(df))) + xlab("Job Role") + ylab("Monthly Income (USD)") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 0.5)) 
 ggplotly(box_plot_income_role) 
-
-# Box plot hourly rate by education
-box_plot_hourly_edu <- merge(df_emp, df_pay) %>% ggplot(aes(Education, HourlyRate, fill = EducationField)) + geom_boxplot() + ggtitle(paste("Box plot of Education v. Hourly Rate by Education Field, n = ", count(df_emp))) + xlab("Education") + ylab("Hourly Rate (USD/Hour)")
-box_plot_hourly_edu
 
 # Bar plot of job satisfaction by job role
 bar_plot_dodge_job_sat <- df %>% ggplot(aes(JobSatisfaction, fill = JobRole)) + geom_bar(position = "dodge") + ggtitle(paste("Bar plot of Job Satisfaction by Job Roles,  n = ", count(df))) + xlab("Job Satisfaction") + ylab("Count") + theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust = 1))
