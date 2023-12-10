@@ -23,16 +23,16 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 sessionInfo()
 
 # Install Packages
-install.packages("ggplot2")
-install.packages("tidyverse")
-install.packages("naniar")
-install.packages("GGally")
-install.packages("plotly")
-install.packages("caret")
-install.packages("e1071")
-install.packages("class")
-install.packages("aws.s3")
-install.packages("ggthemes")
+#install.packages("ggplot2")
+#install.packages("tidyverse")
+#install.packages("naniar")
+#install.packages("GGally")
+#install.packages("plotly")
+#install.packages("caret")
+#install.packages("e1071")
+#install.packages("class")
+#install.packages("aws.s3")
+#install.packages("ggthemes")
 
 # Load Libraries
 library(aws.s3)
@@ -65,11 +65,11 @@ df_cs2_no_attrition = read.csv("data/CaseStudy2CompSet No Attrition.csv", header
 df_cs2_no_salary = read.csv("data/CaseStudy2CompSet No Salary.csv", header = TRUE) # TODO change to relative path file
 
 # Optional: fetch datasets from AWS S3 repository
-Sys.setenv("AWS_ACCESS_KEY_ID" = "",
+#Sys.setenv("AWS_ACCESS_KEY_ID" = "",
            "AWS_SECRET_ACCESS_KEY" = "",
            "AWS_DEFAULT_REGION" = "us-west-2")
-aws.s3::bucketlist()
-aws.s3::get_bucket("casestudy2")
+#aws.s3::bucketlist()
+#aws.s3::get_bucket("casestudy2")
 #df_cs2 = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2-data.csv")
 #df_cs2_no_attrition = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Attrition.csv")
 #df_cs2_no_salary = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Salary.csv")
@@ -211,88 +211,127 @@ ggplotly(smooth_wrap_numcos_rating)
 smooth_wrap_promo_rating <- merge(df_emp, df_job) %>% ggplot(aes(YearsSinceLastPromotion, PerformanceRating, color = JobRole)) + geom_smooth() + facet_wrap(~JobRole)
 ggplotly(smooth_wrap_promo_rating)
 
+# PercentHike v. Years In Current Role
+plot_wrap_psh_yslp <- df_cs2 %>% ggplot(aes(YearsSinceLastPromotion, PercentSalaryHike)) + geom_point(aes(color = Attrition), size = 0.2, position = "jitter") + facet_wrap(~JobRole)
+ggplotly(plot_wrap_psh_yslp)
 
+# Scatter plot years since last promotion v. years in current role
+plot_wrap_yslp_yicr <- df_cs2 %>% ggplot(aes(YearsSinceLastPromotion, YearsInCurrentRole)) + geom_point(aes(color = Attrition), size = 0.2, position = "jitter") + facet_wrap(~JobRole)
+ggplotly(plot_wrap_yslp_yicr)
+
+# *** Scatter plot years with current manager v. years in current role ***
+plot_wrap_ywcm_yicr <- df_cs2 %>% ggplot(aes(YearsWithCurrManager, YearsInCurrentRole)) + geom_point(aes(color = Attrition), size = 0.2, position = "jitter") + facet_wrap(~JobRole)
+ggplotly(plot_wrap_ywcm_yicr)
+
+# Scatter plot years with current manager v. job satisfaction
+plot_wrap_ywcm_js <- df_cs2 %>% ggplot(aes(YearsWithCurrManager, JobSatisfaction)) + geom_point(aes(color = Attrition), size = 0.2, position = "jitter") + facet_wrap(~JobRole)
+ggplotly(plot_wrap_ywcm_js)
 ```
 
 ## Model the Case Study 2 data frame
 ### KNN Classification
 ```{r knn}
-source("analysis/knn.R")
+#source("analysis/knn.R")
 
-# Classification - salary
+# Classification - attrition by leadership management
+set.seed(6)
+split_percent <- 0.7
 
+l_train <- df_cs2 %>% 
+  select(Attrition, YearsWithCurrManager, YearsInCurrentRole)
 
+trainIndices = sample(1:dim(l_train)[1], round(split_percent * dim(l_train)[1]))
+train = l_train[trainIndices,]
+test = l_train[-trainIndices,]
 
-df_train <- df_cs2 %>%
-  select(Attrition, MonthlyIncome, MonthlyRate)
-df_test <- df_cs2_no_attrition %>%
-  select(MonthlyIncome, MonthlyRate)
+scatter_smooth_ywcm_yicr <- l_train %>% ggplot(aes(YearsWithCurrManager, YearsInCurrentRole, color = Attrition)) + geom_point(position = "jitter") + geom_smooth(aes(color = Attrition)) + ggtitle(paste("Plot of Years with current manager v. Years in current role, n = ", count(l_train)))
+ggplotly(scatter_smooth_ywcm_yicr)
 
-# 70/30 Split Cross Validation - Monthly Income v. Monthly Rate
+classification <- knn(train[,2:3], test[,2:3], train$Attrition, prob = TRUE, k = 5)
+table(classification, test$Attrition)
+confusionMatrix(table(classification, test$Attrition))
 
-set.seed(2)
+# Classification - attrition by time duration
+set.seed(6)
+split_percent <- 0.7
 
-split_percent = 0.7
+l_train <- df_cs2 %>% 
+  select(Attrition, YearsAtCompany, YearsInCurrentRole)
 
-role_sales_exec_rep <- df_cs2 %>% filter(JobRole == "Sales Executive" | JobRole == "Sales Representative") %>% mutate(JobRole = as.factor(JobRole))
+trainIndices = sample(1:dim(l_train)[1], round(split_percent * dim(l_train)[1]))
+train = l_train[trainIndices,]
+test = l_train[-trainIndices,]
 
-train_ind <- sample(1:dim(role_sales_exec_rep)[1], round(split_percent*dim(role_sales_exec_rep)[1]))
-train = role_sales_exec_rep[train_ind,]
-test = role_sales_exec_rep[-train_ind,]
+scatter_smooth_yac_yicr <- l_train %>% ggplot(aes(YearsAtCompany, YearsInCurrentRole, color = Attrition)) + geom_point(position = "jitter") + geom_smooth(aes(color = Attrition)) + ggtitle(paste("Plot of Years at company v. years in current role, n = ", count(l_train)))
+ggplotly(scatter_smooth_yac_yicr)
 
-role_sales_exec_rep %>% ggplot(aes(MonthlyIncome, MonthlyRate, color = JobRole)) + geom_point()
+classification <- knn(train[,2:3], test[,2:3], train$Attrition, prob = TRUE, k = 5)
+table(classification, test$Attrition)
+confusionMatrix(table(classification, test$Attrition))
 
-# k = 3
-classification <- knn(train[,20:21], test[,20:21], train$Attrition, k = 3, prob = TRUE)
-table(classification, test$JobRole)
-#########confusionMatrix(table(classification, test$JobRole), test$JobRole)
-# k = 5
-classification <- knn(train[,20:21], test[,20:21], train$Attrition, k = 5, prob = TRUE)
-table(classification, test$JobRole)
-confusionMatrix(table(classification, test$JobRole))
-# k = 15
-classification <- knn(train[,20:21], test[,20:21], train$Attrition, k = 10, prob = TRUE)
-table(classification, test$JobRole)
-confusionMatrix(table(classification, test$JobRole))
+# Classification - attrition by peer relationship
+set.seed(6)
+split_percent <- 0.7
 
-# Internal Cross Validation
-knn.cv(train[,20:21], train$JobRole, k = 3)
+l_train <- df_cs2 %>% 
+  select(Attrition, RelationshipSatisfaction, YearsWithCurrManager)
 
+trainIndices = sample(1:dim(l_train)[1], round(split_percent * dim(l_train)[1]))
+train = l_train[trainIndices,]
+test = l_train[-trainIndices,]
+
+scatter_smooth_ywcm_yicr <- l_train %>% ggplot(aes(RelationshipSatisfaction, YearsWithCurrManager, color = Attrition)) + geom_point(position = "jitter") + geom_smooth(aes(color = Attrition)) + ggtitle(paste("Plot of Number of companies v. years at company, n = ", count(l_train)))
+ggplotly(scatter_smooth_ywcm_yicr)
+
+classification <- knn(train[,2:3], test[,2:3], train$Attrition, prob = TRUE, k = 5)
+table(classification, test$Attrition)
+confusionMatrix(table(classification, test$Attrition))
 
 ```
 ### Naive Bayes Classification
 ```{r naivebayes}
 #source("analysis/nb.R")
 
-attrition <- df_cs2 %>% 
-  select(Attrition, JobRole, JobSatisfaction)
+# Continuous predictor of attrition by leadership
+df_attr <- df_cs2 %>%
+  select(ID, Attrition, YearsWithCurrManager, YearsInCurrentRole) %>%
+  mutate(ID = as.factor(ID), YearsInCurrentRole = as.factor(YearsInCurrentRole), YearsWithCurrManager = as.factor(YearsWithCurrManager))
 
-model = naiveBayes(Attrition~., data = attrition)
-CM = confusionMatrix(table(predict(model, attrition[,2:3]), attrition$Attrition))
-CM
+df_attr %>% ggplot(aes(YearsWithCurrManager, YearsInCurrentRole)) + geom_point(aes(color = Attrition), position = "jitter", size = 0.3) + geom_smooth(aes(color = Attrition), size = 0.3)
 
-iter = 100
-arr_acc = matrix(nrow = iter)
-split_percent = 0.7
-
-for (j in 1:iter) {
-  train_ind = sample(1:dim(attrition)[1], round(split_percent * dim(attrition)[1]))
-  train = attrition[train_ind,]
-  test = attrition[-train_ind,]
-  test$Attrition
-  model = naiveBayes(train[,c(2,3)], train$Attrition, laplace = 1)
-  table(predict(model, test[,c(2,3)], test$Attrition))
-  CM = confusionMatrix(table(predict(model, test[,2:3], test$Attrition)))
-  arr_acc[j] <- CM$overall[1]
+iterations = 100
+m_acc <- matrix(nrow = iterations)
+split_percent <- 0.7
+for(i in 1:iterations) {
+  train_indices = sample(1:dim(df_attr)[1], round(split_percent * dim(df_attr)[1]))
+  train = df_attr[train_indices,]
+  test = df_attr[-train_indices,]
+  
+  model = naiveBayes(train[,3:4], train$Attrition)
+  table(predict(model, test[,3:4]), test$Attrition)
+  cm <- confusionMatrix(table(predict(model,test[,3:4]), test$Attrition))
+  m_acc[i] <- cm$overall[1]
 }
-mean_acc <- colMeans(arr_acc)
+
+mean_acc <- colMeans(m_acc)
 mean_acc
+
+```
+
+### Output model to csv file
+```{r}
+df_out <- data.frame(ID = 1:dim(df_cs2_no_attrition)[1], Attrition = LETTERS[1:3])
+model <- naiveBayes(Attrition~., data = df_attr)
+predictions <- predict(model, df_cs2_no_attrition$Attrition)
+table(predictions, df_out$Attrition)
+write.csv(df_out, "Case2PredictionsXXXX Attrition.csv", row.names = FALSE)
 ```
 ### Linear Regression Analysis
 ```{r regression}
 #source("analysis/lm.R")
 
-fit <- lm(MonthlyIncome~MonthlyRate, data = df_pay)
+# Linear Model Monthly Income v. Monthly Rate
+fit <- lm(MonthlyIncome~HourlyRate, data = df_pay)
 
 df_pay %>% ggplot(aes(MonthlyIncome, MonthlyRate)) + geom_point() + geom_smooth(method = "lm")
 
@@ -336,10 +375,3 @@ MSE <- pred_error_sq / length(df_pay)
 RMSE <- sqrt(pred_error_sq/length(df_pay))
 RMSE
 
-
-```
-## Present the Case Study 2 data frame
-```{r app}
-getwd()
-source("App.Rmd")
-```
