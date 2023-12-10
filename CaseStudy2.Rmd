@@ -64,16 +64,6 @@ df_cs2 = read.csv("data/CaseStudy2-data.csv", header = TRUE) # TODO change to re
 df_cs2_no_attrition = read.csv("data/CaseStudy2CompSet No Attrition.csv", header = TRUE) # TODO change to relative path file
 df_cs2_no_salary = read.csv("data/CaseStudy2CompSet No Salary.csv", header = TRUE) # TODO change to relative path file
 
-# Optional: fetch datasets from AWS S3 repository
-#Sys.setenv("AWS_ACCESS_KEY_ID" = "",
-           "AWS_SECRET_ACCESS_KEY" = "",
-           "AWS_DEFAULT_REGION" = "us-west-2")
-#aws.s3::bucketlist()
-#aws.s3::get_bucket("casestudy2")
-#df_cs2 = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2-data.csv")
-#df_cs2_no_attrition = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Attrition.csv")
-#df_cs2_no_salary = s3read_using(FUN = read.csv, bucket = "casestudy2", object = "CaseStudy2CompSet No Salary.csv")
-
 ```
 ## Tidy the Case Study 2 Data Set
 ```{r tidy, echo=FALSE}
@@ -318,14 +308,6 @@ mean_acc
 
 ```
 
-### Output model to csv file
-```{r}
-df_out <- data.frame(ID = 1:dim(df_cs2_no_attrition)[1], Attrition = LETTERS[1:3])
-model <- naiveBayes(Attrition~., data = df_attr)
-predictions <- predict(model, df_cs2_no_attrition$Attrition)
-table(predictions, df_out$Attrition)
-write.csv(df_out, "Case2PredictionsXXXX Attrition.csv", row.names = FALSE)
-```
 ### Linear Regression Analysis
 ```{r regression}
 #source("analysis/lm.R")
@@ -343,13 +325,13 @@ SE_beta_1_hat <- summary(fit)$coefficients[2,2]
 
 # Intercept
 tstat_int <- beta_0_hat / SE_beta_0_hat
-pvalue_int <- (1-pt(tstat, length(df_pay$MonthlyIncome)-2)) * 2
+pvalue_int <- (1-pt(tstat_int, length(df_pay$MonthlyIncome)-2)) * 2
 tstat_int
 pvalue_int
 
 # Slope
 tstat_slope <- beta_1_hat / SE_beta_1_hat
-pvalue_slope <- (pt(tstat, length(df_pay)-2)) * 2
+pvalue_slope <- (pt(tstat_slope, length(df_pay)-2)) * 2
 tstat_slope
 pvalue_slope
 
