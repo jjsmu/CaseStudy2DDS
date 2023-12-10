@@ -11,14 +11,8 @@ Case Study 02
 ## Executive Summary
 Purpose and Context: DDSAnalytics, a firm known for its expertise in talent management solutions tailored for Fortune 100 companies, focuses on the continuous cycle of developing and maintaining its workforce. The company encompasses aspects in strategic workforce planning, implementing employee training initiatives, spotting employees with high potential, and tackling the issue of voluntary employee turnover, commonly known as "attrition". DDSAnalytics plans to integrate data science into its talent management strategies, and as a primary step to this integration, the company's leadership is applying data science to predict employee attrition. Our team has been assigned the task of analyzing current employee data from Frito-Lay, Inc. with the CEO and CFO senior executive team leadership.
 
-Key Findings and Facts: Exploratory data analysis on factors of wealth and education indicates positively skewed distribution which 
 
-Conclusions: Despite the unremarkable findings regarding the predominant factors that lead to higher turnover rates or attrition, for example, income or educational gaps with respect to job satisfaction, our exploratory data analysis for major trends like education level or salary suggests they are relatively mild in comparison to the impact on employee retention. In other words, the exploratory data analysis performed on the distribution of monthly income was not evident enough to suggest that money is the exact cause for attrition. Furthermore, additional research supporting our study has revealed relatively similar distributions with respect to job satisfaction across the entire spectrum of salary income. This may suggest that most employees are either content or discontent regardless of their pay. On the other hand, our research has observed a noticeable deviation from the level of job satisfaction with respect to particular job roles, especially among women, in Healthcare, Human Resources and Customer Sales. This could potentially indicate the amount of difficulty many employees must undertake when specializing in client-facing roles. However, further analysis has revealed
-
-Recommendations: DDS Analytics has provided a list of recommendations for further study. Our recommendations were developed...
-  1.
-  2.
-  3.
+Conclusions: Despite the findings regarding the predominant factors that lead to higher turnover rates or attrition, for example, income or educational gaps with respect to job satisfaction, our exploratory data analysis for major trends like education level or salary suggests they are unremarkable in comparison to the impact on employee retention. In other words, the exploratory data analysis performed on the distribution of monthly income was not evident enough to suggest that money is the exact cause for attrition. Furthermore, additional research supporting our study has revealed similar distributions with respect to job satisfaction across the entire spectrum of salary income. This may suggest that most employees are either content or discontent regardless of their pay. On the other hand, our research has observed a noticeable deviation from the level of job satisfaction with respect to particular job roles, especially among women, in Healthcare, Human Resources and Customer Sales. This could potentially indicate the amount of difficulty many employees must undertake when specializing in client-facing roles. However, further analysis has revealed
 
 ## Introduction
 
@@ -115,7 +109,7 @@ Variable Descriptions:
 | CurrManager   | NaN | NaN      | NaN |
 
 8. Contact Information: 
-Please contact the individual(s) responsible for the data and codebook, in case there are questions or the need for further clarification directly through GitHub.
+Please contact the individual(s) responsible for the data and codebook, in case there are questions or the need for further clarification directly through GitHub or by email.
 
 9. References and Acknowledgments:
 
