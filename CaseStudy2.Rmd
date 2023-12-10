@@ -15,7 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 # Print Session Information 
 sessionInfo()
 
-library(aws.s3)
 library(class)
 library(caret)
 library(e1071)
@@ -30,9 +29,6 @@ library(ggthemes)
 ## Import the Case Study 2 data set
 
 ```{r import}
-
-# Get the current working directory
-getwd()
 
 # List files in root dir
 list.files()
@@ -141,18 +137,6 @@ ggplotly(hist_att_role)
 hist_wrap_role_gender <- merge(df_emp, df_job) %>% ggplot(aes(Attrition, fill = Gender)) + geom_bar(position = "dodge") + ggtitle(paste("Bar plot of Attrition by Gender, n = ", count(df_emp))) + xlab("Attrition") + ylab("Count") + facet_wrap(~JobRole)
 ggplotly(hist_wrap_role_gender)
 
-# Plot of performance v. distance from home by job role
-smooth_wrap_dist_rating <- merge(df_emp, df_job) %>% ggplot(aes(DistanceFromHome, PerformanceRating, color = JobRole)) + geom_smooth() + facet_wrap(~JobRole)
-ggplotly(smooth_wrap_dist_rating)
-
-# Plot of performance v. number of companies worked by job role
-smooth_wrap_numcos_rating <- merge(df_emp, df_job) %>% ggplot(aes(NumCompaniesWorked, PerformanceRating, color = JobRole)) + geom_smooth() + facet_wrap(~JobRole)
-ggplotly(smooth_wrap_numcos_rating)
-
-# Plot of performance v. years since last promotion by job role
-smooth_wrap_promo_rating <- merge(df_emp, df_job) %>% ggplot(aes(YearsSinceLastPromotion, PerformanceRating, color = JobRole)) + geom_smooth() + facet_wrap(~JobRole)
-ggplotly(smooth_wrap_promo_rating)
-
 # PercentHike v. Years In Current Role
 plot_wrap_psh_yslp <- df_cs2 %>% ggplot(aes(YearsSinceLastPromotion, PercentSalaryHike)) + geom_point(aes(color = Attrition), size = 0.2, position = "jitter") + facet_wrap(~JobRole)
 ggplotly(plot_wrap_psh_yslp)
@@ -222,8 +206,7 @@ trainIndices = sample(1:dim(l_train)[1], round(split_percent * dim(l_train)[1]))
 train = l_train[trainIndices,]
 test = l_train[-trainIndices,]
 
-scatter_smooth_ywcm_yicr <- l_train %>% ggplot(aes(RelationshipSatisfaction, YearsWithCurrManager, color = Attrition)) + geom_point(position = "jitter") + geom_smooth(aes(color = Attrition)) + ggtitle(paste("Plot of Number of companies v. years at company, n = ", count(l_train)))
-ggplotly(scatter_smooth_ywcm_yicr)
+scatter_smooth_rel_yicr <- l_train %>% ggplot(aes(RelationshipSatisfaction, YearsWithCurrManager, color = Attrition)) + geom_point(position = "jitter") + geom_smooth(aes(color = Attrition)) + ggtitle(paste("Plot of Number of companies v. years at company, n = ", count(l_train)))
 
 classification <- knn(train[,2:3], test[,2:3], train$Attrition, prob = TRUE, k = 5)
 table(classification, test$Attrition)
