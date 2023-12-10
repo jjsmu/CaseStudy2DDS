@@ -5,8 +5,8 @@
 
 Case Study 02
 
-## Zoom Link
-<a href="#">Link to Case Study 2 Zoom Presentation Video</a>
+## Video Link
+<a href="https://smu.box.com/s/2u9br0pnukedpco6ryh8q4lkknek6e8i">Link to Case Study 2 Zoom Presentation Video</a>
 
 ## Executive Summary
 Purpose and Context: DDSAnalytics, a firm known for its expertise in talent management solutions tailored for Fortune 100 companies, focuses on the continuous cycle of developing and maintaining its workforce. The company encompasses aspects in strategic workforce planning, implementing employee training initiatives, spotting employees with high potential, and tackling the issue of voluntary employee turnover, commonly known as "attrition". DDSAnalytics plans to integrate data science into its talent management strategies, and as a primary step to this integration, the company's leadership is applying data science to predict employee attrition. Our team has been assigned the task of analyzing current employee data from Frito-Lay, Inc. with the CEO and CFO senior executive team leadership.
